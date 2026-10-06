@@ -232,7 +232,7 @@ PSF_DB = {
         "next_btn": "Khám Phá Tiếp Theo ⚡", "share_btn": "Sao Chép", "copied": "Đã sao chép thành công!",
         "settings": "Cài Đặt Ngôn Ngữ",
         "messages": [
-            "Bạn không vô cωզ im lặng; thế giới chỉ đơn giản là đã điếc trước chiều sâu của bạn.",
+            "Bạn không vô cớ im lặng; thế giới chỉ đơn giản là đã điếc trước chiều sâu của bạn.",
             "Một suy nghĩ nhỏ đang lướt qua tâm trí bạn, chờ đợi lòng dũng cảm.",
             "Khoảnh khắc tiếp theo mang lại sự thay đổi tinh tế trong ngày của bạn.",
             "Bạn thích nghi với những điều không phù hợp mỗi ngày, đó là sức mạnh mệt mỏi.",
@@ -348,4 +348,362 @@ PSF_DB = {
         "title": "PSF - Skjult Puls", "subtitle": "Det levende tilflugtssted for uendelig nysgerrighed",
         "next_btn": "Opdag Næste ⚡", "share_btn": "Kopier", "copied": "Kopieret med succes!",
         "settings": "Sprogindstillinger",
-        "messages":
+        "messages": [
+            "Du er ikke stille ved en tilfældighed; verden er blevet døv for din dybde.",
+            "En lille tanke spiller i dit sind lige nu og venter på mod.",
+            "Det næste øjeblik bringer en fin ændring i din dag.",
+            "Du tilpasser dig det, der ikke passer, hver dag – det er din styrke.",
+            "Bag enhver tavshed gemmer der sig en ufortalt historie."
+        ]
+    },
+    "no": {
+        "name": "Norsk", "dir": "ltr",
+        "title": "PSF - Skjult Puls", "subtitle": "Det levende tilfluktsstedet for uendelig nysgjerrighet",
+        "next_btn": "Oppdag Neste ⚡", "share_btn": "Kopier", "copied": "Kopiert vellykket!",
+        "settings": "Språkinnstillinger",
+        "messages": [
+            "Du er ikke stille ved en tilfeldighet; verden har blitt døv for din dybde.",
+            "En liten tanke spiller i hodet ditt akkurat nå og venter på mot.",
+            "Neste øyeblikk bringer en fin endring i dagen din.",
+            "Du tilpasser deg det som ikke passer hver dag – det er din styrke.",
+            "Bak hver stillhet denne uken skjuler det seg en ufortalt historie."
+        ]
+    },
+    "el_gr": {
+        "name": "Ελληνικά", "dir": "ltr",
+        "title": "PSF - Κρυφός Παλμός", "subtitle": "Το ζωντανό καταφύγιο",
+        "next_btn": "Επόμενο ⚡", "share_btn": "Αντιγραφή", "copied": "Αντιγράφηκε!",
+        "settings": "Ρυθμίσεις",
+        "messages": [
+            "Δεν σιωπάς τυχαία, ο κόσμος έχει γίνει κουφός."
+        ]
+    },
+    "he": {
+        "name": "עברית", "dir": "rtl",
+        "title": "PSF - דופק סמוי", "subtitle": "המחלט החי לסקרנות אינסופית",
+        "next_btn": "גלה את האות הבא ⚡", "share_btn": "העתק", "copied": "הטקסט הועתק בהצלחה!",
+        "settings": "הגדרות שפה",
+        "messages": [
+            "אתה לא שותק סתם כך, העולם הוא זה שהפסיק להקשיב לעומק שלך.",
+            "מחשבה קטנה משחקת בראשך כרגע וממתינה לאומץ.",
+            "הרגע הבא נושא שינוי קל ביום שלך.",
+            "אתה מתאקלם لמה שלא מתאים לך كل يوم מחדש.",
+            "מאחורי كل שתיקה השבוע מסתתר סיפור שלם שטרם סופר."
+        ]
+    },
+    "fa": {
+        "name": "فارسی", "dir": "rtl",
+        "title": "PSF - ضربان پنهان", "subtitle": "پناهگاه زنده برای کنجکاوی و آرامش بی‌پایان",
+        "next_btn": "کشف سیگنال بعدی ⚡", "share_btn": "کپی کردن", "copied": "با موفقیت کپی شد!",
+        "settings": "تنظیمات زبان‌ها",
+        "messages": [
+            "تو بی‌سبب ساکت نیستی؛ دنیاست که در برابر عمق تو کر شده است.",
+            "یک فکر کوچک همین الان در ذهنت می‌چرخد و منتظر شجاعت است.",
+            "لحظه بعد تغییر کوچکی در روز تو ایجاد خواهد کرد.",
+            "تو هر روز با آنچه مناسبت نیست سازگار می‌شوی و این قدرت خسته‌ات است.",
+            "پشت هر سکوتی داستانی کامل و ناگفته نهفته است."
+        ]
+    },
+    "ar_tn": {
+        "name": "التونسية", "dir": "rtl",
+        "title": "PSF - النبض الخفي", "subtitle": "الملاذ الحي للفضول والأعماق",
+        "next_btn": "اكتشف الإشارة التاليه ⚡", "share_btn": "نسخ الأثر", "copied": "تم حفظ الأثر بنجاح!",
+        "settings": "إعدادات اللغات",
+        "messages": [
+            "راك ماكش ساكت بلسعة، الدنيا هي الي ولات صماء وما عادش تسمع عمقك.",
+            "اكو فكرة صغيرة تدور في مخك توا ومستنية شوية شجاعة باش تخرج.",
+            "اللحظة الجاية بش تبدل عليك الجو شوية، ثبت مليح شنوة باش يتبدل.",
+            "أنت تتعايش مع حاجات ما تناسبكش جملة كل يوم، وهذي قوة تعبك.",
+            "وراء كل سكات عشته هالجمعة، حكاية كاملة ما تحكتش الجملة."
+        ]
+    }
+}
+
+HTML_TEMPLATE = """
+<!DOCTYPE html>
+<html lang="{{ lang_code }}" dir="{{ lang_dir }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ t.title }}</title>
+    <style>
+        body {
+            background-color: #05070a;
+            color: #f3f4f6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+        .header-bar {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            right: 25px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        .menu-btn {
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            color: #38bdf8;
+            font-size: 1.2rem;
+            padding: 10px 18px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .menu-btn:hover { background: #1e293b; transform: scale(1.05); color: #fff; }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        .modal-content {
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            padding: 25px;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 450px;
+            max-height: 80vh;
+            overflow-y: auto;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+        }
+        .modal-content h3 { color: #38bdf8; margin-top: 0; font-size: 1.3rem; }
+        .lang-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .lang-option {
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #cbd5e1;
+            padding: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .lang-option:hover, .lang-option.active {
+            background: #0284c7;
+            color: white;
+            border-color: #38bdf8;
+        }
+        .close-modal {
+            margin-top: 20px;
+            background: #334155;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .close-modal:hover { background: #475569; }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 540px;
+            width: 100%;
+        }
+        .logo {
+            font-size: 4rem;
+            font-weight: 900;
+            letter-spacing: 6px;
+            background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0;
+            text-shadow: 0 0 40px rgba(56, 189, 248, 0.3);
+        }
+        .subtitle {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-bottom: 35px;
+            letter-spacing: 0.5px;
+        }
+        .card {
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            padding: 50px 30px;
+            border-radius: 32px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            min-height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        #psych-text {
+            font-size: 1.35rem;
+            color: #f8fafc;
+            line-height: 1.85;
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        .pulse-btn {
+            background: linear-gradient(135deg, #0284c7, #4f46e5);
+            color: white;
+            border: none;
+            padding: 16px 36px;
+            font-size: 1.15rem;
+            border-radius: 40px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(2, 132, 199, 0.5);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: bold;
+            flex: 2;
+        }
+        .pulse-btn:hover { 
+            transform: translateY(-3px) scale(1.02); 
+            box-shadow: 0 15px 35px rgba(2, 132, 199, 0.7); 
+        }
+        .share-btn {
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            color: #cbd5e1;
+            padding: 16px 24px;
+            font-size: 1rem;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        .share-btn:hover { background: #1e293b; color: white; border-color: #475569; }
+        .toast {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #38bdf8;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-bar">
+        <button class="menu-btn" onclick="openSettings()">🌐 ≡</button>
+    </div>
+
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <h3>{{ t.settings }}</h3>
+            <div class="lang-grid">
+                {% for code, data in languages.items() %}
+                <div class="lang-option {% if code == lang_code %}active{% endif %}" onclick="changeLang('{{ code }}')">
+                    {{ data.name }}
+                </div>
+                {% endfor %}
+            </div>
+            <button class="close-modal" onclick="closeSettings()">إغلاق</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="logo">PSF</div>
+        <div class="subtitle">{{ t.subtitle }}</div>
+
+        <div class="card" id="cardBox">
+            <div id="psych-text">{{ initial_message }}</div>
+        </div>
+
+        <div class="actions">
+            <button class="pulse-btn" onclick="fetchNextSignal()">{{ t.next_btn }}</button>
+            <button class="share-btn" onclick="shareSignal()">{{ t.share_btn }}</button>
+        </div>
+        <div id="toast" class="toast">{{ t.copied }}</div>
+    </div>
+
+    <script>
+        let currentLang = '{{ lang_code }}';
+        let lastText = '';
+
+        function openSettings() { document.getElementById('settingsModal').style.display = 'flex'; }
+        function closeSettings() { document.getElementById('settingsModal').style.display = 'none'; }
+        function changeLang(lang) { window.location.href = `/?lang=${lang}`; }
+
+        function fetchNextSignal() {
+            const card = document.getElementById('cardBox');
+            const textElem = document.getElementById('psych-text');
+            
+            textElem.style.opacity = '0';
+            textElem.style.transform = 'translateY(15px)';
+            
+            fetch(`/next?lang=${currentLang}&last=${encodeURIComponent(lastText)}`)
+                .then(response => response.json())
+                .then(data => {
+                    setTimeout(() => {
+                        lastText = data.message;
+                        textElem.innerText = data.message;
+                        textElem.style.opacity = '1';
+                        textElem.style.transform = 'translateY(0)';
+                    }, 200);
+                });
+        }
+
+        function shareSignal() {
+            const text = document.getElementById('psych-text').innerText;
+            navigator.clipboard.writeText(text + " \\n- PSF").then(() => {
+                const toast = document.getElementById('toast');
+                toast.style.opacity = '1';
+                setTimeout(() => { toast.style.opacity = '0'; }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
+"""
+
+@app.route("/")
+def home():
+    lang = request.args.get('lang', 'ar')
+    if lang not in PSF_DB:
+        lang = 'ar'
+    t = PSF_DB[lang]
+    initial = random.choice(t["messages"])
+    return render_template_string(HTML_TEMPLATE, t=t, languages=PSF_DB, lang_code=lang, lang_dir=t["dir"], initial_message=initial)
+
+@app.route("/next")
+def next_signal():
+    lang = request.args.get('lang', 'ar')
+    last_msg = request.args.get('last', '')
+    
+    if lang not in PSF_DB:
+        lang = 'ar'
+    t = PSF_DB[lang]
+    pool = t["messages"]
+    
+    filtered = [m for m in pool if m != last_msg]
+    if not filtered:
+        filtered = pool
+        
+    chosen = random.choice(filtered)
+    return jsonify({"message": chosen})
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)
