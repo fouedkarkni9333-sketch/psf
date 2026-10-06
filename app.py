@@ -84,8 +84,7 @@ TRANSLATIONS = {
         "cats": {"all": "Alle", "calm": "Ruhe", "curiosity": "Neugier", "wisdom": "Weisheit", "mystery": "Mysterium"},
         "messages": [
             "Wahre Ruhe beginnt, wenn man aufhört zu suchen.",
-            "Haltet kurz inne... und lasst den Lärm der Welt verblassen.",
-            "Welche kleine Idee wartet darauf, von Ihnen entdeckt zu werden?"
+            "Haltet kurz inne... und lasst den Lärm der Welt verblassen."
         ]
     },
     "it": {
@@ -137,13 +136,16 @@ TRANSLATIONS = {
     }
 }
 
-HTML_TEMPLATE = """
-<!DOCTYPE html>
-<html lang="{{ lang_code }}" dir="{{ lang_dir }}">
+HTML_PART_1 = """<!DOCTYPE html>
+<html lang="""
+
+HTML_PART_2 = """
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ t.title }}</title>
+    <title>"""
+
+HTML_PART_3 = """</title>
     <style>
         body {
             background-color: #0d1117;
@@ -192,4 +194,297 @@ HTML_TEMPLATE = """
             background: #161b22;
             border: 1px solid #30363d;
             padding: 25px;
-            border-radius: 20px
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+            text-align: center;
+        }
+        .modal-content h3 { color: #58a6ff; margin-top: 0; }
+        .lang-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .lang-option {
+            background: #21262d;
+            border: 1px solid #30363d;
+            color: #c9d1d9;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .lang-option:hover, .lang-option.active {
+            background: #1f6feb;
+            color: white;
+            border-color: #388bfd;
+        }
+        .close-modal {
+            margin-top: 20px;
+            background: #30363d;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 500px;
+            width: 100%;
+        }
+        .logo {
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: #58a6ff;
+            margin-bottom: 0;
+            text-shadow: 0 0 20px rgba(88, 166, 255, 0.4);
+        }
+        .subtitle {
+            color: #8b949e;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .cat-btn {
+            background: #21262d;
+            border: 1px solid #30363d;
+            color: #8b949e;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .cat-btn.active, .cat-btn:hover {
+            background: #1f6feb;
+            color: white;
+            border-color: #388bfd;
+        }
+        .card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            padding: 35px 25px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #mystery-text {
+            font-size: 1.25rem;
+            color: #f0f6fc;
+            line-height: 1.7;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        .pulse-btn {
+            background: linear-gradient(135deg, #1f6feb, #388bfd);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            font-size: 1.05rem;
+            border-radius: 35px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(31, 111, 235, 0.4);
+            transition: all 0.3s ease;
+            font-weight: bold;
+            flex: 2;
+        }
+        .pulse-btn:hover { transform: scale(1.03); }
+        .share-btn {
+            background: #21262d;
+            border: 1px solid #30363d;
+            color: #c9d1d9;
+            padding: 14px 20px;
+            font-size: 0.95rem;
+            border-radius: 35px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        .share-btn:hover { background: #30363d; color: white; }
+        .toast {
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: #3fb950;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-bar">
+        <button class="menu-btn" onclick="openSettings()">⚙️ ≡</button>
+    </div>
+
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <h3>"""
+
+HTML_PART_4 = """</h3>
+            <div class="lang-grid">
+                {% for code, data in languages.items() %}
+                <div class="lang-option {% if code == lang_code %}active{% endif %}" onclick="changeLang('{{ code }}')">
+                    {{ data.name }}
+                </div>
+                {% endfor %}
+            </div>
+            <button class="close-modal" onclick="closeSettings()">✕</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="logo">PSF</div>
+        <div class="subtitle">"""
+
+HTML_PART_5 = """</div>
+        
+        <div class="categories">
+            <button class="cat-btn active" onclick="setCategory('all', this)">"""
+
+HTML_PART_6 = """</button>
+            <button class="cat-btn" onclick="setCategory('calm', this)">"""
+
+HTML_PART_7 = """</button>
+            <button class="cat-btn" onclick="setCategory('curiosity', this)">"""
+
+HTML_PART_8 = """</button>
+            <button class="cat-btn" onclick="setCategory('wisdom', this)">"""
+
+HTML_PART_9 = """</button>
+            <button class="cat-btn" onclick="setCategory('mystery', this)">"""
+
+HTML_PART_10 = """</button>
+        </div>
+
+        <div class="card" id="card-box">
+            <div id="mystery-text">"""
+
+HTML_PART_11 = """</div>
+        </div>
+
+        <div class="actions">
+            <button class="pulse-btn" onclick="fetchNext()">"""
+
+HTML_PART_12 = """</button>
+            <button class="share-btn" onclick="shareText()">"""
+
+HTML_PART_13 = """</button>
+        </div>
+        <div id="toast" class="toast">"""
+
+HTML_PART_14 = """</div>
+    </div>
+
+    <script>
+        let currentCategory = 'all';
+        let currentLang = '"""
+
+HTML_PART_15 = """';
+
+        function openSettings() { document.getElementById('settingsModal').style.display = 'flex'; }
+        function closeSettings() { document.getElementById('settingsModal').style.display = 'none'; }
+        
+        function changeLang(lang) {
+            window.location.href = `/?lang=${lang}`;
+        }
+
+        function setCategory(category, btn) {
+            currentCategory = category;
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            fetchNext();
+        }
+
+        function fetchNext() {
+            const textElem = document.getElementById('mystery-text');
+            textElem.style.opacity = '0';
+            textElem.style.transform = 'translateY(10px)';
+            
+            fetch(`/next?cat=${currentCategory}&lang=${currentLang}`)
+                .then(response => response.json())
+                .then(data => {
+                    setTimeout(() => {
+                        textElem.innerText = data.message;
+                        textElem.style.opacity = '1';
+                        textElem.style.transform = 'translateY(0)';
+                    }, 200);
+                });
+        }
+
+        function shareText() {
+            const text = document.getElementById('mystery-text').innerText;
+            navigator.clipboard.writeText(text + " \\n- PSF").then(() => {
+                const toast = document.getElementById('toast');
+                toast.style.opacity = '1';
+                setTimeout(() => { toast.style.opacity = '0'; }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
+"""
+
+@app.route("/")
+def home():
+    lang = request.args.get('lang', 'ar')
+    if lang not in TRANSLATIONS:
+        lang = 'ar'
+    
+    t = TRANSLATIONS[lang]
+    msgs = t.get("messages", TRANSLATIONS["ar"]["messages"])
+    
+    full_html = (
+        HTML_PART_1 + f'"{lang}" dir="{t["dir"]}"' +
+        HTML_PART_2 + t["title"] +
+        HTML_PART_3 + t["settings"] +
+        HTML_PART_4 + t["subtitle"] +
+        HTML_PART_5 + t["cats"]["all"] +
+        HTML_PART_6 + t["cats"]["calm"] +
+        HTML_PART_7 + t["cats"]["curiosity"] +
+        HTML_PART_8 + t["cats"]["wisdom"] +
+        HTML_PART_9 + t["cats"]["mystery"] +
+        HTML_PART_10 + random.choice(msgs) +
+        HTML_PART_11 + t["next_btn"] +
+        HTML_PART_12 + t["share_btn"] +
+        HTML_PART_13 + t["copied"] +
+        HTML_PART_14 + lang +
+        HTML_PART_15
+    )
+    
+    return render_template_string(full_html, languages=TRANSLATIONS, lang_code=lang)
+
+@app.route("/next")
+def next_message():
+    lang = request.args.get('lang', 'ar')
+    if lang not in TRANSLATIONS:
+        lang = 'ar'
+        
+    t = TRANSLATIONS[lang]
+    messages = t.get("messages", TRANSLATIONS["ar"]["messages"])
+        
+    return jsonify({"message": random.choice(messages)})
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)
