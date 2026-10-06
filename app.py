@@ -3,153 +3,97 @@ import random
 
 app = Flask(__name__)
 
-TRANSLATIONS = {
+# قاعدة بيانات مهيكلة بالكامل بالعربية الفصحى لتطبيق PSF
+PSF_DB = {
     "ar": {
         "name": "العربية",
         "dir": "rtl",
         "title": "PSF - الملاذ الآمن",
         "subtitle": "الملاذ الآمن للفضول والهدوء اللامتناهي",
-        "next_btn": "اكتشف التالي",
+        "next_btn": "اكتشف التالي ✨",
         "share_btn": "نسخ",
         "copied": "تم نسخ النص بنجاح!",
         "settings": "الإعدادات واللغات",
-        "cats": {"all": "الكل", "calm": "تأملات", "curiosity": "فضول", "wisdom": "حكم", "mystery": "أسرار"},
-        "messages": [
-            "الهدوء الحقيقي يبدأ عندما تتوقف عن البحث وتترك العقل يتنفس.",
-            "توقف لثانية... ودع صخب العالم يختفي خلف هذه الشاشة.",
-            "ما هي الفكرة الصغيرة التي تنتظر أن تكتشفها اليوم وتغير مجرى تفكيرك؟",
-            "الكلمة الطيبة في الوقت المناسب تساوي عمراً كاملاً من الطمأنينة."
-        ]
+        "cats": {
+            "all": "الكل", 
+            "calm": "تأملات هادئة", 
+            "curiosity": "عالم الفضول", 
+            "wisdom": "حكم وأعماق", 
+            "mystery": "أسرار الخفاء"
+        },
+        "messages": {
+            "calm": [
+                "الهدوء الحقيقي يبدأ عندما تتوقف عن البحث وتترك العقل يتنفس بسلام.",
+                "توقف لثانية واحدة... ودع صخب العالم يختفي خلف هذه الشاشة بهدوء تام.",
+                "أحياناً يكون الصمت أبلغ رد على تفاصيل الحياة المتسارعة.",
+                "السكينة ليست عدم وجود الضجيج، بل هي السلام وسط الصخب."
+            ],
+            "curiosity": [
+                "ما هي الفكرة الصغيرة التي تنتظر أن تكتشفها اليوم لتغير مجرى تفكيرك بالكامل؟",
+                "ما تخفيه اللحظة القادمة قد يكون هو الإجابة الدقيقة التي بحثت عنها طويلاً.",
+                "العقل البشري يبتكر أسراراً مذهلة عندما يُمنح مساحة كافية للتأمل الفردي.",
+                "خلف كل سؤال بسيط، عالم متكامل من الحقائق التي تنتظر من يكتشفها."
+            ],
+            "wisdom": [
+                "الكلمة الطيبة في الوقت المناسب تساوي عمراً كاملاً من الطمأنينة واليقين.",
+                "من أمعن النظر في عواقب الأمور، سلم من عثرات البدايات.",
+                "الأيام تذهب ولا تعود، فاجعل لخطاك أثراً جميلاً يخلده الزمن.",
+                "الحكمة الحقيقية أن تعلم متى تتحدث ومتى يكون الصمت هو البلاغة كلها."
+            ],
+            "mystery": [
+                "خلف كل كبسة زر، سر جديد وخاص ينتظر أن يتم الكشف عنه الآن.",
+                "هناك دائماً زوايا خفية في هذا الكون لم تصل إليها أفكارك بعد.",
+                "التجارب الغامضة تصنع العقول العظيمة التي لا تشبه الآخرين.",
+                "استعد لما هو غير متوقع، فالصفحة التالية تحمل طابعاً فريداً."
+            ]
+        }
     },
     "en": {
         "name": "English",
         "dir": "ltr",
         "title": "PSF - Safe Haven",
         "subtitle": "The safe haven for endless curiosity and peace",
-        "next_btn": "Discover Next",
+        "next_btn": "Discover Next ✨",
         "share_btn": "Copy",
         "copied": "Text copied successfully!",
         "settings": "Settings & Languages",
-        "cats": {"all": "All", "calm": "Calm", "curiosity": "Curiosity", "wisdom": "Wisdom", "mystery": "Mystery"},
-        "messages": [
-            "True calm begins when you stop searching and let your mind breathe.",
-            "Pause for a second... and let the noise of the world fade behind this screen.",
-            "What small idea is waiting to be discovered by you today?",
-            "A kind word at the right time is worth a lifetime of peace."
-        ]
-    },
-    "fr": {
-        "name": "Français",
-        "dir": "ltr",
-        "title": "PSF - Haven Sûr",
-        "subtitle": "Le havre de paix pour la curiosité infinie",
-        "next_btn": "Découvrir Suivant",
-        "share_btn": "Copier",
-        "copied": "Texte copié avec succès !",
-        "settings": "Paramètres et Langues",
-        "cats": {"all": "Tout", "calm": "Calme", "curiosity": "Curiosité", "wisdom": "Sagesse", "mystery": "Mystère"},
-        "messages": [
-            "Le vrai calme commence lorsque vous arrêtez de chercher.",
-            "Faites une pause... et laissez le bruit du monde s'effacer.",
-            "Quelle petite idée attend d'être découverte par vous aujourd'hui ?",
-            "Un mot gentil au bon moment vaut une vie de sérénité."
-        ]
-    },
-    "es": {
-        "name": "Español",
-        "dir": "ltr",
-        "title": "PSF - Refugio Seguro",
-        "subtitle": "El refugio seguro para la curiosidad infinita",
-        "next_btn": "Descubrir Siguiente",
-        "share_btn": "Copiar",
-        "copied": "¡Texto copiado con éxito!",
-        "settings": "Ajustes e Idiomas",
-        "cats": {"all": "Todo", "calm": "Calma", "curiosity": "Curiosidad", "wisdom": "Sabiduría", "mystery": "Misterio"},
-        "messages": [
-            "La verdadera calma comienza cuando dejas de buscar.",
-            "Detente un segundo... y deja que el ruido del mundo desaparezca.",
-            "¿Qué pequeña idea espera ser descubierta por ti hoy?",
-            "Una palabra amable en el momento adecuado vale toda una vida."
-        ]
-    },
-    "de": {
-        "name": "Deutsch",
-        "dir": "ltr",
-        "title": "PSF - Zufluchtsort",
-        "subtitle": "Der sichere Hafen für endlose Neugier und Ruhe",
-        "next_btn": "Nächstes entdecken",
-        "share_btn": "Kopieren",
-        "copied": "Text erfolgreich kopiert!",
-        "settings": "Einstellungen & Sprachen",
-        "cats": {"all": "Alle", "calm": "Ruhe", "curiosity": "Neugier", "wisdom": "Weisheit", "mystery": "Mysterium"},
-        "messages": [
-            "Wahre Ruhe beginnt, wenn man aufhört zu suchen.",
-            "Haltet kurz inne... und lasst den Lärm der Welt verblassen."
-        ]
-    },
-    "it": {
-        "name": "Italiano",
-        "dir": "ltr",
-        "title": "PSF - Rifugio",
-        "subtitle": "Il rifugio sicuro per curiosità e pace",
-        "next_btn": "Scopri il Prossimo",
-        "share_btn": "Copia",
-        "copied": "Testo copiato con successo!",
-        "settings": "Impostazioni",
-        "cats": {"all": "Tutti", "calm": "Calma", "curiosity": "Curiosità", "wisdom": "Saggezza", "mystery": "Mistero"},
-        "messages": [
-            "La vera calma inizia quando smetti di cercare.",
-            "Fermati un secondo... e lascia che il rumore del mondo svanisca."
-        ]
-    },
-    "tr": {
-        "name": "Türkçe",
-        "dir": "ltr",
-        "title": "PSF - Sığınak",
-        "subtitle": "Sonsuz merak ve huzur için güvenli sığınak",
-        "next_btn": "Sonrakini Keşfet",
-        "share_btn": "Kopyala",
-        "copied": "Metin başarıyla kopyalandı!",
-        "settings": "Ayarlar",
-        "cats": {"all": "Tümü", "calm": "Sakinlik", "curiosity": "Merak", "wisdom": "Bilgelik", "mystery": "Gizem"},
-        "messages": [
-            "Gerçek sakinlik aramayı bıraktığında başlar.",
-            "Bir saniye dur... ve dünyanın gürültüsünün kaybolmasına izin ver."
-        ]
-    },
-    "ar-TN": {
-        "name": "تونسية (Tunisian)",
-        "dir": "rtl",
-        "title": "PSF - البلاصة الآمنة",
-        "subtitle": "الاستراحة الهادئة للفضول والروقان",
-        "next_btn": "اكتشف الجاي",
-        "share_btn": "نسخ",
-        "copied": "تم النسخ بنجاح!",
-        "settings": "الإعدادات واللغات",
-        "cats": {"all": "الكل", "calm": "روقان", "curiosity": "فضول", "wisdom": "حكم", "mystery": "أسرار"},
-        "messages": [
-            "الروقان الحقيقي يبدأ كيف تبطل تحوس وتخلي عقلك يرتاح.",
-            "اقفز بثانية... وخلي دوشة الدنيا الكل تتخبى وراء هاليزران.",
-            "أشنوه الفكرة الصغيرة اللي تستنى فيك اليوم باش تبدل مخك؟",
-            "كلمة طيبة في وقتها تسوى الدنيا وماحوي."
-        ]
+        "cats": {
+            "all": "All", 
+            "calm": "Calm", 
+            "curiosity": "Curiosity", 
+            "wisdom": "Wisdom", 
+            "mystery": "Mystery"
+        },
+        "messages": {
+            "calm": [
+                "True calm begins when you stop searching and let your mind breathe.",
+                "Pause for a second... and let the noise of the world fade behind this screen."
+            ],
+            "curiosity": [
+                "What small idea is waiting to be discovered by you today?",
+                "What the next moment hides might be the exact answer you sought."
+            ],
+            "wisdom": [
+                "A kind word at the right time is worth a lifetime of peace."
+            ],
+            "mystery": [
+                "Every tap unlocks a completely new dimension of surprise."
+            ]
+        }
     }
 }
 
-HTML_PART_1 = """<!DOCTYPE html>
-<html lang="""
-
-HTML_PART_2 = """
+HTML_TEMPLATE = """
+<!DOCTYPE html>
+<html lang="{{ lang_code }}" dir="{{ lang_dir }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>"""
-
-HTML_PART_3 = """</title>
+    <title>{{ t.title }}</title>
     <style>
         body {
-            background-color: #0d1117;
-            color: #e6edf3;
+            background-color: #080c14;
+            color: #f3f4f6;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             flex-direction: column;
@@ -166,132 +110,150 @@ HTML_PART_3 = """</title>
             left: 20px;
             right: 20px;
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             align-items: center;
         }
         .menu-btn {
-            background: #21262d;
-            border: 1px solid #30363d;
-            color: #c9d1d9;
-            font-size: 1.3rem;
-            padding: 8px 14px;
-            border-radius: 12px;
+            background: #111827;
+            border: 1px solid #1f2937;
+            color: #60a5fa;
+            font-size: 1.2rem;
+            padding: 10px 16px;
+            border-radius: 16px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
         }
-        .menu-btn:hover { background: #30363d; color: white; }
+        .menu-btn:hover { background: #1f2937; transform: scale(1.05); color: #fff; }
         
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.85);
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            backdrop-filter: blur(8px);
         }
         .modal-content {
-            background: #161b22;
-            border: 1px solid #30363d;
-            padding: 25px;
-            border-radius: 20px;
+            background: #111827;
+            border: 1px solid #1f2937;
+            padding: 30px;
+            border-radius: 24px;
             width: 90%;
             max-width: 400px;
-            max-height: 80vh;
-            overflow-y: auto;
             text-align: center;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.9);
         }
-        .modal-content h3 { color: #58a6ff; margin-top: 0; }
+        .modal-content h3 { color: #60a5fa; margin-top: 0; font-size: 1.3rem; }
         .lang-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-top: 20px;
         }
         .lang-option {
-            background: #21262d;
-            border: 1px solid #30363d;
-            color: #c9d1d9;
-            padding: 10px;
-            border-radius: 10px;
+            background: #1f2937;
+            border: 1px solid #374151;
+            color: #d1d5db;
+            padding: 12px;
+            border-radius: 14px;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 1rem;
             transition: all 0.2s;
         }
         .lang-option:hover, .lang-option.active {
-            background: #1f6feb;
+            background: #2563eb;
             color: white;
-            border-color: #388bfd;
+            border-color: #60a5fa;
         }
         .close-modal {
             margin-top: 20px;
-            background: #30363d;
+            background: #374151;
             color: white;
             border: none;
-            padding: 8px 20px;
-            border-radius: 10px;
+            padding: 10px 24px;
+            border-radius: 12px;
             cursor: pointer;
+            transition: background 0.2s;
         }
+        .close-modal:hover { background: #4b5563; }
 
         .container {
             text-align: center;
             padding: 20px;
-            max-width: 500px;
+            max-width: 520px;
             width: 100%;
         }
         .logo {
-            font-size: 3rem;
+            font-size: 3.8rem;
             font-weight: 900;
-            letter-spacing: 2px;
-            color: #58a6ff;
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6, #93c5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin-bottom: 0;
-            text-shadow: 0 0 20px rgba(88, 166, 255, 0.4);
+            text-shadow: 0 0 35px rgba(59, 130, 246, 0.4);
         }
         .subtitle {
-            color: #8b949e;
+            color: #9ca3af;
             font-size: 0.95rem;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            letter-spacing: 0.5px;
         }
         .categories {
             display: flex;
             justify-content: center;
             gap: 8px;
             flex-wrap: wrap;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         .cat-btn {
-            background: #21262d;
-            border: 1px solid #30363d;
-            color: #8b949e;
-            padding: 6px 12px;
+            background: #111827;
+            border: 1px solid #1f2937;
+            color: #9ca3af;
+            padding: 8px 16px;
             font-size: 0.85rem;
-            border-radius: 15px;
+            border-radius: 20px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .cat-btn.active, .cat-btn:hover {
-            background: #1f6feb;
+            background: #2563eb;
             color: white;
-            border-color: #388bfd;
+            border-color: #60a5fa;
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.5);
+            transform: translateY(-2px);
         }
         .card {
-            background: #161b22;
-            border: 1px solid #30363d;
-            padding: 35px 25px;
-            border-radius: 20px;
+            background: #111827;
+            border: 1px solid #1f2937;
+            padding: 45px 30px;
+            border-radius: 28px;
             margin-bottom: 25px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-            min-height: 100px;
+            box-shadow: 0 15px 45px rgba(0,0,0,0.8);
+            min-height: 130px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 28px;
+            border: 1px solid rgba(96, 165, 250, 0.08);
+            pointer-events: none;
         }
         #mystery-text {
-            font-size: 1.25rem;
-            color: #f0f6fc;
-            line-height: 1.7;
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            font-size: 1.3rem;
+            color: #f9fafb;
+            line-height: 1.8;
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.35s ease, transform 0.35s ease;
         }
         .actions {
             display: flex;
@@ -299,37 +261,41 @@ HTML_PART_3 = """</title>
             justify-content: center;
         }
         .pulse-btn {
-            background: linear-gradient(135deg, #1f6feb, #388bfd);
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
             color: white;
             border: none;
-            padding: 14px 30px;
-            font-size: 1.05rem;
-            border-radius: 35px;
+            padding: 16px 36px;
+            font-size: 1.15rem;
+            border-radius: 40px;
             cursor: pointer;
-            box-shadow: 0 4px 20px rgba(31, 111, 235, 0.4);
-            transition: all 0.3s ease;
+            box-shadow: 0 8px 30px rgba(37, 99, 235, 0.6);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-weight: bold;
             flex: 2;
         }
-        .pulse-btn:hover { transform: scale(1.03); }
+        .pulse-btn:hover { 
+            transform: translateY(-3px) scale(1.02); 
+            box-shadow: 0 12px 35px rgba(37, 99, 235, 0.8); 
+        }
         .share-btn {
-            background: #21262d;
-            border: 1px solid #30363d;
-            color: #c9d1d9;
-            padding: 14px 20px;
-            font-size: 0.95rem;
-            border-radius: 35px;
+            background: #111827;
+            border: 1px solid #1f2937;
+            color: #e5e7eb;
+            padding: 16px 24px;
+            font-size: 1rem;
+            border-radius: 40px;
             cursor: pointer;
             transition: all 0.3s ease;
             flex: 1;
         }
-        .share-btn:hover { background: #30363d; color: white; }
+        .share-btn:hover { background: #1f2937; color: white; border-color: #4b5563; }
         .toast {
             margin-top: 15px;
-            font-size: 0.85rem;
-            color: #3fb950;
+            font-size: 0.9rem;
+            color: #4ade80;
             opacity: 0;
             transition: opacity 0.3s ease;
+            font-weight: 500;
         }
     </style>
 </head>
@@ -340,9 +306,7 @@ HTML_PART_3 = """</title>
 
     <div id="settingsModal" class="modal">
         <div class="modal-content">
-            <h3>"""
-
-HTML_PART_4 = """</h3>
+            <h3>{{ t.settings }}</h3>
             <div class="lang-grid">
                 {% for code, data in languages.items() %}
                 <div class="lang-option {% if code == lang_code %}active{% endif %}" onclick="changeLang('{{ code }}')">
@@ -350,65 +314,42 @@ HTML_PART_4 = """</h3>
                 </div>
                 {% endfor %}
             </div>
-            <button class="close-modal" onclick="closeSettings()">✕</button>
+            <button class="close-modal" onclick="closeSettings()">إغلاق</button>
         </div>
     </div>
 
     <div class="container">
         <div class="logo">PSF</div>
-        <div class="subtitle">"""
-
-HTML_PART_5 = """</div>
+        <div class="subtitle">{{ t.subtitle }}</div>
         
         <div class="categories">
-            <button class="cat-btn active" onclick="setCategory('all', this)">"""
-
-HTML_PART_6 = """</button>
-            <button class="cat-btn" onclick="setCategory('calm', this)">"""
-
-HTML_PART_7 = """</button>
-            <button class="cat-btn" onclick="setCategory('curiosity', this)">"""
-
-HTML_PART_8 = """</button>
-            <button class="cat-btn" onclick="setCategory('wisdom', this)">"""
-
-HTML_PART_9 = """</button>
-            <button class="cat-btn" onclick="setCategory('mystery', this)">"""
-
-HTML_PART_10 = """</button>
+            <button class="cat-btn active" onclick="setCategory('all', this)">{{ t.cats.all }}</button>
+            <button class="cat-btn" onclick="setCategory('calm', this)">{{ t.cats.calm }}</button>
+            <button class="cat-btn" onclick="setCategory('curiosity', this)">{{ t.cats.curiosity }}</button>
+            <button class="cat-btn" onclick="setCategory('wisdom', this)">{{ t.cats.wisdom }}</button>
+            <button class="cat-btn" onclick="setCategory('mystery', this)">{{ t.cats.mystery }}</button>
         </div>
 
-        <div class="card" id="card-box">
-            <div id="mystery-text">"""
-
-HTML_PART_11 = """</div>
+        <div class="card">
+            <div id="mystery-text">{{ initial_message }}</div>
         </div>
 
         <div class="actions">
-            <button class="pulse-btn" onclick="fetchNext()">"""
-
-HTML_PART_12 = """</button>
-            <button class="share-btn" onclick="shareText()">"""
-
-HTML_PART_13 = """</button>
+            <button class="pulse-btn" onclick="fetchNext()">{{ t.next_btn }}</button>
+            <button class="share-btn" onclick="shareText()">{{ t.share_btn }}</button>
         </div>
-        <div id="toast" class="toast">"""
-
-HTML_PART_14 = """</div>
+        <div id="toast" class="toast">{{ t.copied }}</div>
     </div>
 
     <script>
         let currentCategory = 'all';
-        let currentLang = '"""
-
-HTML_PART_15 = """';
+        let currentLang = '{{ lang_code }}';
+        let lastMessage = '';
 
         function openSettings() { document.getElementById('settingsModal').style.display = 'flex'; }
         function closeSettings() { document.getElementById('settingsModal').style.display = 'none'; }
         
-        function changeLang(lang) {
-            window.location.href = `/?lang=${lang}`;
-        }
+        function changeLang(lang) { window.location.href = `/?lang=${lang}`; }
 
         function setCategory(category, btn) {
             currentCategory = category;
@@ -420,16 +361,17 @@ HTML_PART_15 = """';
         function fetchNext() {
             const textElem = document.getElementById('mystery-text');
             textElem.style.opacity = '0';
-            textElem.style.transform = 'translateY(10px)';
+            textElem.style.transform = 'translateY(15px)';
             
-            fetch(`/next?cat=${currentCategory}&lang=${currentLang}`)
+            fetch(`/next?cat=${currentCategory}&lang=${currentLang}&last=${encodeURIComponent(lastMessage)}`)
                 .then(response => response.json())
                 .then(data => {
                     setTimeout(() => {
+                        lastMessage = data.message;
                         textElem.innerText = data.message;
                         textElem.style.opacity = '1';
                         textElem.style.transform = 'translateY(0)';
-                    }, 200);
+                    }, 250);
                 });
         }
 
@@ -446,45 +388,42 @@ HTML_PART_15 = """';
 </html>
 """
 
+def get_messages_pool(t, cat_key):
+    if cat_key == 'all':
+        pool = []
+        for cat in t["messages"].values():
+            pool.extend(cat)
+        return pool
+    return t["messages"].get(cat_key, t["messages"]["calm"])
+
 @app.route("/")
 def home():
     lang = request.args.get('lang', 'ar')
-    if lang not in TRANSLATIONS:
+    if lang not in PSF_DB:
         lang = 'ar'
-    
-    t = TRANSLATIONS[lang]
-    msgs = t.get("messages", TRANSLATIONS["ar"]["messages"])
-    
-    full_html = (
-        HTML_PART_1 + f'"{lang}" dir="{t["dir"]}"' +
-        HTML_PART_2 + t["title"] +
-        HTML_PART_3 + t["settings"] +
-        HTML_PART_4 + t["subtitle"] +
-        HTML_PART_5 + t["cats"]["all"] +
-        HTML_PART_6 + t["cats"]["calm"] +
-        HTML_PART_7 + t["cats"]["curiosity"] +
-        HTML_PART_8 + t["cats"]["wisdom"] +
-        HTML_PART_9 + t["cats"]["mystery"] +
-        HTML_PART_10 + random.choice(msgs) +
-        HTML_PART_11 + t["next_btn"] +
-        HTML_PART_12 + t["share_btn"] +
-        HTML_PART_13 + t["copied"] +
-        HTML_PART_14 + lang +
-        HTML_PART_15
-    )
-    
-    return render_template_string(full_html, languages=TRANSLATIONS, lang_code=lang)
+    t = PSF_DB[lang]
+    pool = get_messages_pool(t, 'all')
+    initial = random.choice(pool)
+    return render_template_string(HTML_TEMPLATE, t=t, languages=PSF_DB, lang_code=lang, lang_dir=t["dir"], initial_message=initial)
 
 @app.route("/next")
 def next_message():
     lang = request.args.get('lang', 'ar')
-    if lang not in TRANSLATIONS:
+    cat_key = request.args.get('cat', 'all')
+    last_msg = request.args.get('last', '')
+    
+    if lang not in PSF_DB:
         lang = 'ar'
+    t = PSF_DB[lang]
+    pool = get_messages_pool(t, cat_key)
+    
+    # محرك عشوائي ذكي يمنع تكرار نفس النص وراء بعضه مباشرة
+    filtered_pool = [m for m in pool if m != last_msg]
+    if not filtered_pool:
+        filtered_pool = pool
         
-    t = TRANSLATIONS[lang]
-    messages = t.get("messages", TRANSLATIONS["ar"]["messages"])
-        
-    return jsonify({"message": random.choice(messages)})
+    chosen = random.choice(filtered_pool)
+    return jsonify({"message": chosen})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
