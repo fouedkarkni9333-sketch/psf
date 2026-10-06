@@ -1,83 +1,50 @@
 from flask import Flask, jsonify, render_template_string, request
 import random
+import time
 
 app = Flask(__name__)
 
-# قاعدة بيانات مهيكلة بالكامل بالعربية الفصحى لتطبيق PSF
-PSF_DB = {
+# المحرك النفسي العاطفي لتطبيق PSF - هندسة الدوبامين والتشويق المستمر
+PSF_PSYCHOLOGICAL_DB = {
     "ar": {
         "name": "العربية",
         "dir": "rtl",
-        "title": "PSF - الملاذ الآمن",
-        "subtitle": "الملاذ الآمن للفضول والهدوء اللامتناهي",
-        "next_btn": "اكتشف التالي ✨",
-        "share_btn": "نسخ",
-        "copied": "تم نسخ النص بنجاح!",
-        "settings": "الإعدادات واللغات",
-        "cats": {
-            "all": "الكل", 
-            "calm": "تأملات هادئة", 
-            "curiosity": "عالم الفضول", 
-            "wisdom": "حكم وأعماق", 
-            "mystery": "أسرار الخفاء"
+        "title": "PSF - النبض الخفي",
+        "subtitle": "حيث تبحث عن صدى ما يدور في عمق روحك",
+        "next_btn": "اكشف الإشارة التالية ⚡",
+        "share_btn": "احتفظ باللحظة",
+        "copied": "تم حفظ الأثر بنجاح!",
+        "settings": "تخصيص التجربة",
+        "modes": {
+            "validation": "الصدى الشخصي",
+            "mystery": "الترقب المجهول",
+            "escape": "الهروب الواعي",
+            "mirror": "مرآة الحقيقة"
         },
-        "messages": {
-            "calm": [
-                "الهدوء الحقيقي يبدأ عندما تتوقف عن البحث وتترك العقل يتنفس بسلام.",
-                "توقف لثانية واحدة... ودع صخب العالم يختفي خلف هذه الشاشة بهدوء تام.",
-                "أحياناً يكون الصمت أبلغ رد على تفاصيل الحياة المتسارعة.",
-                "السكينة ليست عدم وجود الضجيج، بل هي السلام وسط الصخب."
-            ],
-            "curiosity": [
-                "ما هي الفكرة الصغيرة التي تنتظر أن تكتشفها اليوم لتغير مجرى تفكيرك بالكامل؟",
-                "ما تخفيه اللحظة القادمة قد يكون هو الإجابة الدقيقة التي بحثت عنها طويلاً.",
-                "العقل البشري يبتكر أسراراً مذهلة عندما يُمنح مساحة كافية للتأمل الفردي.",
-                "خلف كل سؤال بسيط، عالم متكامل من الحقائق التي تنتظر من يكتشفها."
-            ],
-            "wisdom": [
-                "الكلمة الطيبة في الوقت المناسب تساوي عمراً كاملاً من الطمأنينة واليقين.",
-                "من أمعن النظر في عواقب الأمور، سلم من عثرات البدايات.",
-                "الأيام تذهب ولا تعود، فاجعل لخطاك أثراً جميلاً يخلده الزمن.",
-                "الحكمة الحقيقية أن تعلم متى تتحدث ومتى يكون الصمت هو البلاغة كلها."
+        "signals": {
+            "validation": [
+                "أنت لست صامتاً عبثاً، العالم هو الذي أصبح أصمّ عن سماعك.",
+                "هناك تفصيل صغير في شخصيتك يلاحظه الجميع، لكن لا تجرؤ أحدهم على قوله بصوت عالٍ.",
+                "أنت تتأقلم مع ما لا يناسبك كل يوم، وهذا هو سر قوتك المتعبة.",
+                "كنت تتوقع رداً مختلفاً تماماً عما حصّلت عليه اليوم، أليس كذلك؟"
             ],
             "mystery": [
-                "خلف كل كبسة زر، سر جديد وخاص ينتظر أن يتم الكشف عنه الآن.",
-                "هناك دائماً زوايا خفية في هذا الكون لم تصل إليها أفكارك بعد.",
-                "التجارب الغامضة تصنع العقول العظيمة التي لا تشبه الآخرين.",
-                "استعد لما هو غير متوقع، فالصفحة التالية تحمل طابعاً فريداً."
-            ]
-        }
-    },
-    "en": {
-        "name": "English",
-        "dir": "ltr",
-        "title": "PSF - Safe Haven",
-        "subtitle": "The safe haven for endless curiosity and peace",
-        "next_btn": "Discover Next ✨",
-        "share_btn": "Copy",
-        "copied": "Text copied successfully!",
-        "settings": "Settings & Languages",
-        "cats": {
-            "all": "All", 
-            "calm": "Calm", 
-            "curiosity": "Curiosity", 
-            "wisdom": "Wisdom", 
-            "mystery": "Mystery"
-        },
-        "messages": {
-            "calm": [
-                "True calm begins when you stop searching and let your mind breathe.",
-                "Pause for a second... and let the noise of the world fade behind this screen."
+                "شخص ما كان يفكر بك قبل خمس دقائق بالذات، والصدفة ستكشفه قريباً.",
+                "هناك إشعار أو رسالة تنتظرك في مكان ما، وكأنها ستغير مزاجك فوراً.",
+                "اللحظة القادمة تحمل تغييراً طفيفاً في مسار يومك، انتبه جيداً لما سيتغير.",
+                "وراء كل صمت عشته هذا الأسبوع، قصة كاملة لم تروَ بعد."
             ],
-            "curiosity": [
-                "What small idea is waiting to be discovered by you today?",
-                "What the next moment hides might be the exact answer you sought."
+            "escape": [
+                "تخلص من كل هذا الثقل المؤقت، أنت لست مطاداً لإرضاء هذا العالم اليوم.",
+                "تخيل لو أنك غادرت كل شيء الآن واختفيت في مكان لا يعرفك فيه أحد.",
+                "الشاشة هذه هي نافذتك الوحيدة لتهرب من ضغط تكرار الأيام المألوفة.",
+                "امنح عقلك الحق في التوقف عن التفكير، العالم سيسير بشكل طبيعي دون قلقك."
             ],
-            "wisdom": [
-                "A kind word at the right time is worth a lifetime of peace."
-            ],
-            "mystery": [
-                "Every tap unlocks a completely new dimension of surprise."
+            "mirror": [
+                "أنت تبحث في هذا التطبيق عن جملة تشرح ما تعجز عن بوحه لنفسك.",
+                "تعلم جيداً أن ما يزعجك ليس الحدث، بل الطريقة التي تفهم بها نوايا من حولك.",
+                "أنت تظهر صلابة أمامهم، بينما تفاصيلك الصغيرة تهتز من أقل كلمة.",
+                "توقف عن محاولة إثبات أنك بخير، مسموح لك أن تتعب بصمت."
             ]
         }
     }
@@ -92,7 +59,7 @@ HTML_TEMPLATE = """
     <title>{{ t.title }}</title>
     <style>
         body {
-            background-color: #080c14;
+            background-color: #05070a;
             color: #f3f4f6;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
@@ -106,70 +73,49 @@ HTML_TEMPLATE = """
         }
         .header-bar {
             position: absolute;
-            top: 20px;
-            left: 20px;
-            right: 20px;
+            top: 25px;
+            left: 25px;
+            right: 25px;
             display: flex;
             justify-content: flex-end;
             align-items: center;
         }
         .menu-btn {
-            background: #111827;
-            border: 1px solid #1f2937;
-            color: #60a5fa;
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            color: #38bdf8;
             font-size: 1.2rem;
-            padding: 10px 16px;
+            padding: 10px 18px;
             border-radius: 16px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        .menu-btn:hover { background: #1f2937; transform: scale(1.05); color: #fff; }
+        .menu-btn:hover { background: #1e293b; transform: scale(1.05); color: #fff; }
         
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
+            background: rgba(0,0,0,0.9);
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(10px);
         }
         .modal-content {
-            background: #111827;
-            border: 1px solid #1f2937;
+            background: #0f172a;
+            border: 1px solid #1e293b;
             padding: 30px;
             border-radius: 24px;
             width: 90%;
             max-width: 400px;
             text-align: center;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.9);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
         }
-        .modal-content h3 { color: #60a5fa; margin-top: 0; font-size: 1.3rem; }
-        .lang-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
-            margin-top: 20px;
-        }
-        .lang-option {
-            background: #1f2937;
-            border: 1px solid #374151;
-            color: #d1d5db;
-            padding: 12px;
-            border-radius: 14px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.2s;
-        }
-        .lang-option:hover, .lang-option.active {
-            background: #2563eb;
-            color: white;
-            border-color: #60a5fa;
-        }
+        .modal-content h3 { color: #38bdf8; margin-top: 0; font-size: 1.3rem; }
         .close-modal {
             margin-top: 20px;
-            background: #374151;
+            background: #1e293b;
             color: white;
             border: none;
             padding: 10px 24px;
@@ -177,83 +123,85 @@ HTML_TEMPLATE = """
             cursor: pointer;
             transition: background 0.2s;
         }
-        .close-modal:hover { background: #4b5563; }
+        .close-modal:hover { background: #334155; }
 
         .container {
             text-align: center;
             padding: 20px;
-            max-width: 520px;
+            max-width: 540px;
             width: 100%;
         }
         .logo {
-            font-size: 3.8rem;
+            font-size: 4rem;
             font-weight: 900;
-            letter-spacing: 4px;
-            background: linear-gradient(135deg, #60a5fa, #3b82f6, #93c5fd);
+            letter-spacing: 6px;
+            background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 0;
-            text-shadow: 0 0 35px rgba(59, 130, 246, 0.4);
+            text-shadow: 0 0 40px rgba(56, 189, 248, 0.3);
         }
         .subtitle {
-            color: #9ca3af;
+            color: #64748b;
             font-size: 0.95rem;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             letter-spacing: 0.5px;
         }
-        .categories {
+        .modes-container {
             display: flex;
             justify-content: center;
             gap: 8px;
             flex-wrap: wrap;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
-        .cat-btn {
-            background: #111827;
-            border: 1px solid #1f2937;
-            color: #9ca3af;
-            padding: 8px 16px;
+        .mode-btn {
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            color: #94a3b8;
+            padding: 9px 18px;
             font-size: 0.85rem;
-            border-radius: 20px;
+            border-radius: 22px;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .cat-btn.active, .cat-btn:hover {
-            background: #2563eb;
+        .mode-btn.active, .mode-btn:hover {
+            background: #0284c7;
             color: white;
-            border-color: #60a5fa;
-            box-shadow: 0 0 20px rgba(37, 99, 235, 0.5);
+            border-color: #38bdf8;
+            box-shadow: 0 0 20px rgba(2, 132, 199, 0.4);
             transform: translateY(-2px);
         }
         .card {
-            background: #111827;
-            border: 1px solid #1f2937;
-            padding: 45px 30px;
-            border-radius: 28px;
-            margin-bottom: 25px;
-            box-shadow: 0 15px 45px rgba(0,0,0,0.8);
-            min-height: 130px;
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            padding: 50px 30px;
+            border-radius: 32px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            min-height: 140px;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             overflow: hidden;
         }
-        .card::after {
+        .card::before {
             content: '';
             position: absolute;
-            inset: 0;
-            border-radius: 28px;
-            border: 1px solid rgba(96, 165, 250, 0.08);
-            pointer-events: none;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.05), transparent);
+            transition: 0.5s;
         }
-        #mystery-text {
-            font-size: 1.3rem;
-            color: #f9fafb;
-            line-height: 1.8;
+        .card.loading::before {
+            left: 100%;
+        }
+        #psych-text {
+            font-size: 1.35rem;
+            color: #f8fafc;
+            line-height: 1.85;
             opacity: 1;
             transform: translateY(0);
-            transition: opacity 0.35s ease, transform 0.35s ease;
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
         .actions {
             display: flex;
@@ -261,26 +209,26 @@ HTML_TEMPLATE = """
             justify-content: center;
         }
         .pulse-btn {
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            background: linear-gradient(135deg, #0284c7, #4f46e5);
             color: white;
             border: none;
             padding: 16px 36px;
             font-size: 1.15rem;
             border-radius: 40px;
             cursor: pointer;
-            box-shadow: 0 8px 30px rgba(37, 99, 235, 0.6);
+            box-shadow: 0 10px 30px rgba(2, 132, 199, 0.5);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-weight: bold;
             flex: 2;
         }
         .pulse-btn:hover { 
             transform: translateY(-3px) scale(1.02); 
-            box-shadow: 0 12px 35px rgba(37, 99, 235, 0.8); 
+            box-shadow: 0 15px 35px rgba(2, 132, 199, 0.7); 
         }
         .share-btn {
-            background: #111827;
-            border: 1px solid #1f2937;
-            color: #e5e7eb;
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            color: #cbd5e1;
             padding: 16px 24px;
             font-size: 1rem;
             border-radius: 40px;
@@ -288,11 +236,11 @@ HTML_TEMPLATE = """
             transition: all 0.3s ease;
             flex: 1;
         }
-        .share-btn:hover { background: #1f2937; color: white; border-color: #4b5563; }
+        .share-btn:hover { background: #1e293b; color: white; border-color: #475569; }
         .toast {
             margin-top: 15px;
             font-size: 0.9rem;
-            color: #4ade80;
+            color: #38bdf8;
             opacity: 0;
             transition: opacity 0.3s ease;
             font-weight: 500;
@@ -301,20 +249,14 @@ HTML_TEMPLATE = """
 </head>
 <body>
     <div class="header-bar">
-        <button class="menu-btn" onclick="openSettings()">⚙️ ≡</button>
+        <button class="menu-btn" onclick="openSettings()">⚡ نظام الإشارات</button>
     </div>
 
     <div id="settingsModal" class="modal">
         <div class="modal-content">
             <h3>{{ t.settings }}</h3>
-            <div class="lang-grid">
-                {% for code, data in languages.items() %}
-                <div class="lang-option {% if code == lang_code %}active{% endif %}" onclick="changeLang('{{ code }}')">
-                    {{ data.name }}
-                </div>
-                {% endfor %}
-            </div>
-            <button class="close-modal" onclick="closeSettings()">إغلاق</button>
+            <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.6;">تطبيق PSF مصمم ليعكس ما يدور في عمق شعورك عبر نبضات نفسية متجددة ولا نهائية.</p>
+            <button class="close-modal" onclick="closeSettings()">إغلاق ومتابعة</button>
         </div>
     </div>
 
@@ -322,61 +264,62 @@ HTML_TEMPLATE = """
         <div class="logo">PSF</div>
         <div class="subtitle">{{ t.subtitle }}</div>
         
-        <div class="categories">
-            <button class="cat-btn active" onclick="setCategory('all', this)">{{ t.cats.all }}</button>
-            <button class="cat-btn" onclick="setCategory('calm', this)">{{ t.cats.calm }}</button>
-            <button class="cat-btn" onclick="setCategory('curiosity', this)">{{ t.cats.curiosity }}</button>
-            <button class="cat-btn" onclick="setCategory('wisdom', this)">{{ t.cats.wisdom }}</button>
-            <button class="cat-btn" onclick="setCategory('mystery', this)">{{ t.cats.mystery }}</button>
+        <div class="modes-container">
+            <button class="mode-btn active" onclick="setMode('validation', this)">{{ t.modes.validation }}</button>
+            <button class="mode-btn" onclick="setMode('mystery', this)">{{ t.modes.mystery }}</button>
+            <button class="mode-btn" onclick="setMode('escape', this)">{{ t.modes.escape }}</button>
+            <button class="mode-btn" onclick="setMode('mirror', this)">{{ t.modes.mirror }}</button>
         </div>
 
-        <div class="card">
-            <div id="mystery-text">{{ initial_message }}</div>
+        <div class="card" id="cardBox">
+            <div id="psych-text">{{ initial_message }}</div>
         </div>
 
         <div class="actions">
-            <button class="pulse-btn" onclick="fetchNext()">{{ t.next_btn }}</button>
-            <button class="share-btn" onclick="shareText()">{{ t.share_btn }}</button>
+            <button class="pulse-btn" onclick="fetchNextSignal()">{{ t.next_btn }}</button>
+            <button class="share-btn" onclick="shareSignal()">{{ t.share_btn }}</button>
         </div>
         <div id="toast" class="toast">{{ t.copied }}</div>
     </div>
 
     <script>
-        let currentCategory = 'all';
+        let currentMode = 'validation';
         let currentLang = '{{ lang_code }}';
-        let lastMessage = '';
+        let lastText = '';
 
         function openSettings() { document.getElementById('settingsModal').style.display = 'flex'; }
         function closeSettings() { document.getElementById('settingsModal').style.display = 'none'; }
-        
-        function changeLang(lang) { window.location.href = `/?lang=${lang}`; }
 
-        function setCategory(category, btn) {
-            currentCategory = category;
-            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+        function setMode(mode, btn) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            fetchNext();
+            fetchNextSignal();
         }
 
-        function fetchNext() {
-            const textElem = document.getElementById('mystery-text');
+        function fetchNextSignal() {
+            const card = document.getElementById('cardBox');
+            const textElem = document.getElementById('psych-text');
+            
             textElem.style.opacity = '0';
             textElem.style.transform = 'translateY(15px)';
+            card.classList.add('loading');
             
-            fetch(`/next?cat=${currentCategory}&lang=${currentLang}&last=${encodeURIComponent(lastMessage)}`)
+            fetch(`/next?mode=${currentMode}&lang=${currentLang}&last=${encodeURIComponent(lastText)}`)
                 .then(response => response.json())
                 .then(data => {
                     setTimeout(() => {
-                        lastMessage = data.message;
+                        lastText = data.message;
                         textElem.innerText = data.message;
                         textElem.style.opacity = '1';
                         textElem.style.transform = 'translateY(0)';
-                    }, 250);
+                        card.classList.remove('loading');
+                    }, 200);
                 });
         }
 
-        function shareText() {
-            const text = document.getElementById('mystery-text').innerText;
+        function shareSignal() {
+            const text = document.getElementById('psych-text').innerText;
             navigator.clipboard.writeText(text + " \\n- PSF").then(() => {
                 const toast = document.getElementById('toast');
                 toast.style.opacity = '1';
@@ -388,41 +331,41 @@ HTML_TEMPLATE = """
 </html>
 """
 
-def get_messages_pool(t, cat_key):
-    if cat_key == 'all':
+def get_signals_pool(t, mode_key):
+    if mode_key == 'all':
         pool = []
-        for cat in t["messages"].values():
+        for cat in t["signals"].values():
             pool.extend(cat)
         return pool
-    return t["messages"].get(cat_key, t["messages"]["calm"])
+    return t["signals"].get(mode_key, t["signals"]["validation"])
 
 @app.route("/")
 def home():
     lang = request.args.get('lang', 'ar')
-    if lang not in PSF_DB:
+    if lang not in PSF_PSYCHOLOGICAL_DB:
         lang = 'ar'
-    t = PSF_DB[lang]
-    pool = get_messages_pool(t, 'all')
+    t = PSF_PSYCHOLOGICAL_DB[lang]
+    pool = get_signals_pool(t, 'validation')
     initial = random.choice(pool)
-    return render_template_string(HTML_TEMPLATE, t=t, languages=PSF_DB, lang_code=lang, lang_dir=t["dir"], initial_message=initial)
+    return render_template_string(HTML_TEMPLATE, t=t, lang_code=lang, lang_dir=t["dir"], initial_message=initial)
 
 @app.route("/next")
-def next_message():
+def next_signal():
     lang = request.args.get('lang', 'ar')
-    cat_key = request.args.get('cat', 'all')
+    mode_key = request.args.get('mode', 'validation')
     last_msg = request.args.get('last', '')
     
-    if lang not in PSF_DB:
+    if lang not in PSF_PSYCHOLOGICAL_DB:
         lang = 'ar'
-    t = PSF_DB[lang]
-    pool = get_messages_pool(t, cat_key)
+    t = PSF_PSYCHOLOGICAL_DB[lang]
+    pool = get_signals_pool(t, mode_key)
     
-    # محرك عشوائي ذكي يمنع تكرار نفس النص وراء بعضه مباشرة
-    filtered_pool = [m for m in pool if m != last_msg]
-    if not filtered_pool:
-        filtered_pool = pool
+    # ضمان عدم تكرار نفس التأثير النفسي مباشرة لتحافظ على عنصر الدهشة والترقب
+    filtered = [m for m in pool if m != last_msg]
+    if not filtered:
+        filtered = pool
         
-    chosen = random.choice(filtered_pool)
+    chosen = random.choice(filtered)
     return jsonify({"message": chosen})
 
 if __name__ == "__main__":
