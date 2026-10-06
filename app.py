@@ -1,9 +1,8 @@
-from flask import Flask, jsonify, render_template_string
+from flask import Flask, jsonify, render_template_string, request
 import random
 
 app = Flask(__name__)
 
-# دعم أكثر من 30 لغة مع محتوى مخصص لكل لغة
 TRANSLATIONS = {
     "ar": {
         "name": "العربية",
@@ -19,8 +18,7 @@ TRANSLATIONS = {
             "الهدوء الحقيقي يبدأ عندما تتوقف عن البحث وتترك العقل يتنفس.",
             "توقف لثانية... ودع صخب العالم يختفي خلف هذه الشاشة.",
             "ما هي الفكرة الصغيرة التي تنتظر أن تكتشفها اليوم وتغير مجرى تفكيرك؟",
-            "الكلمة الطيبة في الوقت المناسب تساوي عمراً كاملاً من الطمأنينة.",
-            "ما تخفيه اللحظة القادمة قد يكون هو الإجابة التي بحثت عنها طويلاً."
+            "الكلمة الطيبة في الوقت المناسب تساوي عمراً كاملاً من الطمأنينة."
         ]
     },
     "en": {
@@ -37,8 +35,7 @@ TRANSLATIONS = {
             "True calm begins when you stop searching and let your mind breathe.",
             "Pause for a second... and let the noise of the world fade behind this screen.",
             "What small idea is waiting to be discovered by you today?",
-            "A kind word at the right time is worth a lifetime of peace.",
-            "What the next moment hides might be the answer you've long sought."
+            "A kind word at the right time is worth a lifetime of peace."
         ]
     },
     "fr": {
@@ -55,8 +52,7 @@ TRANSLATIONS = {
             "Le vrai calme commence lorsque vous arrêtez de chercher.",
             "Faites une pause... et laissez le bruit du monde s'effacer.",
             "Quelle petite idée attend d'être découverte par vous aujourd'hui ?",
-            "Un mot gentil au bon moment vaut une vie de sérénité.",
-            "Ce que cache le moment suivant pourrait être la réponse cherchée."
+            "Un mot gentil au bon moment vaut une vie de sérénité."
         ]
     },
     "es": {
@@ -73,14 +69,13 @@ TRANSLATIONS = {
             "La verdadera calma comienza cuando dejas de buscar.",
             "Detente un segundo... y deja que el ruido del mundo desaparezca.",
             "¿Qué pequeña idea espera ser descubierta por ti hoy?",
-            "Una palabra amable en el momento adecuado vale toda una vida.",
-            "Lo que oculta el próximo momento podría ser la respuesta."
+            "Una palabra amable en el momento adecuado vale toda una vida."
         ]
     },
     "de": {
         "name": "Deutsch",
         "dir": "ltr",
-        "title": "PSF - Sicherer Zufluchtsort",
+        "title": "PSF - Zufluchtsort",
         "subtitle": "Der sichere Hafen für endlose Neugier und Ruhe",
         "next_btn": "Nächstes entdecken",
         "share_btn": "Kopieren",
@@ -90,70 +85,111 @@ TRANSLATIONS = {
         "messages": [
             "Wahre Ruhe beginnt, wenn man aufhört zu suchen.",
             "Haltet kurz inne... und lasst den Lärm der Welt verblassen.",
-            "Welche kleine Idee wartet darauf, von Ihnen entdeckt zu werden?",
-            "Ein gutes Wort zur rechten Zeit ist ein ganzes Leben an Frieden wert.",
-            "Was der nächste Moment verbirgt, könnte Ihre Antwort sein."
+            "Welche kleine Idee wartet darauf, von Ihnen entdeckt zu werden?"
         ]
     },
     "it": {
         "name": "Italiano",
         "dir": "ltr",
-        "title": "PSF - Rifugio Sicuro",
-        "subtitle": "Il rifugio sicuro per curiosità e pace infinita",
+        "title": "PSF - Rifugio",
+        "subtitle": "Il rifugio sicuro per curiosità e pace",
         "next_btn": "Scopri il Prossimo",
         "share_btn": "Copia",
         "copied": "Testo copiato con successo!",
-        "settings": "Impostazioni e Lingue",
+        "settings": "Impostazioni",
         "cats": {"all": "Tutti", "calm": "Calma", "curiosity": "Curiosità", "wisdom": "Saggezza", "mystery": "Mistero"},
         "messages": [
             "La vera calma inizia quando smetti di cercare.",
-            "Fermati un secondo... e lascia che il rumore del mondo svanisca.",
-            "Quale piccola idea aspetta di essere scoperta oggi?",
-            "Una parola gentile al momento giusto vale una vita di pace.",
-            "Ciò che il prossimo momento nasconde potrebbe essere la risposta."
+            "Fermati un secondo... e lascia che il rumore del mondo svanisca."
         ]
     },
     "tr": {
         "name": "Türkçe",
         "dir": "ltr",
-        "title": "PSF - Güvenli Sığınak",
+        "title": "PSF - Sığınak",
         "subtitle": "Sonsuz merak ve huzur için güvenli sığınak",
         "next_btn": "Sonrakini Keşfet",
         "share_btn": "Kopyala",
         "copied": "Metin başarıyla kopyalandı!",
-        "settings": "Ayarlar ve Diller",
+        "settings": "Ayarlar",
         "cats": {"all": "Tümü", "calm": "Sakinlik", "curiosity": "Merak", "wisdom": "Bilgelik", "mystery": "Gizem"},
         "messages": [
             "Gerçek sakinlik aramayı bıraktığında başlar.",
-            "Bir saniye dur... ve dünyanın gürültüsünün kaybolmasına izin ver.",
-            "Bugün seni keşfedilmeyi bekleyen hangi küçük fikir var?",
-            "Doğru zamanda söylenen tatlı bir söz ömre bedeldir.",
-            "Gelecek anın sakladığı şey aradığın cevap olabilir."
+            "Bir saniye dur... ve dünyanın gürültüsünün kaybolmasına izin ver."
         ]
     },
-    "pt": {
-        "name": "Português",
-        "dir": "ltr",
-        "title": "PSF - Refúgio Seguro",
-        "subtitle": "O refúgio seguro para curiosidade e paz infinita",
-        "next_btn": "Descobrir Próximo",
-        "share_btn": "Copiar",
-        "copied": "Texto copiado com sucesso!",
-        "settings": "Configurações e Idiomas",
-        "cats": {"all": "Tudo", "calm": "Calma", "curiosity": "Curiosidade", "wisdom": "Sabedoria", "mystery": "Mistério"},
+    "ar-TN": {
+        "name": "تونسية (Tunisian)",
+        "dir": "rtl",
+        "title": "PSF - البلاصة الآمنة",
+        "subtitle": "الاستراحة الهادئة للفضول والروقان",
+        "next_btn": "اكتشف الجاي",
+        "share_btn": "نسخ",
+        "copied": "تم النسخ بنجاح!",
+        "settings": "الإعدادات واللغات",
+        "cats": {"all": "الكل", "calm": "روقان", "curiosity": "فضول", "wisdom": "حكم", "mystery": "أسرار"},
         "messages": [
-            "A verdadeira calma começa quando você para de procurar.",
-            "Pare um segundo... e deixe o barulho do mundo desaparecer.",
-            "Que pequena ideia está esperando para ser descoberta por você hoje?",
-            "Uma palavra gentil no momento certo vale uma vida de paz.",
-            "O que o próximo momento esconde pode ser a resposta."
+            "الروقان الحقيقي يبدأ كيف تبطل تحوس وتخلي عقلك يرتاح.",
+            "اقفز بثانية... وخلي دوشة الدنيا الكل تتخبى وراء هاليزران.",
+            "أشنوه الفكرة الصغيرة اللي تستنى فيك اليوم باش تبدل مخك؟",
+            "كلمة طيبة في وقتها تسوى الدنيا وماحوي."
         ]
-    },
-    "ru": {
-        "name": "Русский",
-        "dir": "ltr",
-        "title": "PSF - Безопасная гавань",
-        "subtitle": "Безопасное прибежище для бесконечного любопытства",
-        "next_btn": "Далее",
-        "share_btn": "Копировать",
-        "copied
+    }
+}
+
+HTML_TEMPLATE = """
+<!DOCTYPE html>
+<html lang="{{ lang_code }}" dir="{{ lang_dir }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ t.title }}</title>
+    <style>
+        body {
+            background-color: #0d1117;
+            color: #e6edf3;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+        .header-bar {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .menu-btn {
+            background: #21262d;
+            border: 1px solid #30363d;
+            color: #c9d1d9;
+            font-size: 1.3rem;
+            padding: 8px 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .menu-btn:hover { background: #30363d; color: white; }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: #161b22;
+            border: 1px solid #30363d;
+            padding: 25px;
+            border-radius: 20px
